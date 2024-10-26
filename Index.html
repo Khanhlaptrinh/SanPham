@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Demo_Product</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    
+    /* Table styling giữ nguyên */
+    input[type="text"], input[type="number"], input[type="file"], textarea {
+        width: 100px;
+        padding: 5px;
+        margin-right: 10px;
+        font-size: 14px;
+    }
+
+    button {
+        padding: 4px 12px;
+        font-size: 14px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:nth-child(odd) {
+        background-color: #fefefe;
+    }
+
+    td button {
+        padding: 5px 10px;
+        font-size: 12px;
+        background-color: #28a745;
+    }
+
+    td button:hover {
+        background-color: #218838;
+    }
+
+    td button.delete-btn {
+        background-color: #dc3545;
+    }
+
+    td button.delete-btn:hover {
+        background-color: #c82333;
+    }
+</style>
+<body>
+<nav>
+    <ul>
+        <li><a href="./TrangChu.html">Trang Chu</a></li>
+        <li><a href="./AddProduct.html">Them San Pham</a></li>
+        <li class="search-container">
+            <input id="search" type="text" placeholder="Search products"/>
+            <button id="S">Search</button>
+        </li>
+    </ul>
+</nav>
+<div id="result1"></div>
+</body>
+<script>
+    //Lấy giá trị tương ứng với khóa đã lưu trong localStrong.
+    let products = JSON.parse(localStorage.getItem("products")) || [];
+    document.getElementById("S").addEventListener("click", function () {
+        let Search = document.getElementById("search").value;
+        let result1 = products.filter(product => product.name.includes(Search));
+        displayProducts(result1);
+    });
+
+    function displayProducts(products) {
+        let result = "<table>";
+        result += "<tr><th>ID</th><th>Name</th><th>Price</th><th>Image</th><th>Description</th></tr>";
+        for (let i = 0; i < products.length; i++) {
+            result += "<tr>";
+            result += "<td>" + products[i].id + "</td>";
+            result += "<td>" + products[i].name + "</td>";
+            result += "<td>" + products[i].price + "</td>";
+            //Nếu có ảnh thì hiển thị
+            if (products[i].image) {
+                result += `<td><img src="${products[i].image}" alt="Image" style="width: 50px; height: 50px;"/></td>`;
+            } else {
+                result += `<td>No Image</td>`;
+            }
+            result += "<td>" + products[i].description + "</td>";
+            result += "</tr>";
+        }
+        result += "</table>";
+        document.getElementById("result1").innerHTML = result;
+    }
+</script>
+</html>

@@ -1,0 +1,59 @@
+/* Style cho menu */
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background-color: #333;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    padding: 14px 20px;
+    display: block;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #575757;
+}
+
+/* Style cho ô tìm kiếm */
+.search-container {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    padding-right: 20px;
+}
+
+.search-container input[type="text"] {
+    padding: 8px;
+    font-size: 14px;
+    border: none;
+    border-radius: 3px;
+    width: 200px;
+    margin-right: 10px;
+}
+
+.search-container button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-container button:hover {
+    background-color: #45a049;
+}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+  .container {
+    width: 600px;
+    margin: 10px auto;
+    background-color: #fff;
+    padding: 10px;
+  }
+
+  .input-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+
+  input[type="text"], input[type="number"], input[type="file"], textarea {
+    width: 100px;
+    padding: 5px;
+    margin-right: 10px;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 4px 12px;
+    font-size: 14px;
+  }
+
+
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  tr:nth-child(odd) {
+    background-color: #fefefe;
+  }
+
+  td button {
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #28a745;
+  }
+
+  td button:hover {
+    background-color: #218838;
+  }
+
+  td button.delete-btn {
+    background-color: #dc3545;
+  }
+
+  td button.delete-btn:hover {
+    background-color: #c82333;
+  }
+</style>
+<body>
+<div class="container">
+  <div class="input-container">
+    <input id="Them_Id" type="text" placeholder="ID"/>
+    <input type="text" id="Them_Name" placeholder="Name" />
+    <input type="text" id="Them_Price" placeholder="Price"/>
+    <input type="text" id="Them_Image" placeholder="Image URL"/>
+    <input type="text" id="Them_Description" placeholder="Description"/>
+    <button id="add">add</button>
+  </div>
+  <div id="result"></div>
+</div>
+</body>
+<script>
+  class Product {
+    id;
+    name;
+    price;
+    image;
+    description;
+
+    constructor(id, name, price, image, description) {
+      this.id = id;
+      this.name = name;
+      this.price = price;
+      this.image = image;
+      this.description = description;
+    }
+
+    sale(percent) {
+      this.price = (1 - percent / 100) * this.price;
+    }
+  }
+
+  function displayProducts(products) {
+    let result = "<table>";
+    result += "<tr><th>ID</th><th>Name</th><th>Price</th><th>Img</th><th>Description</th><th>Edit</th><th>Delete</th></tr>";
+    for (let i = 0; i < products.length; i++) {
+      result += "<tr>";
+      result += "<td>" + products[i].id + "</td>";
+      result += "<td>" + products[i].name + "</td>";
+      result += "<td>" + products[i].price + "</td>";
+      //Nếu có ảnh thì hiển thị
+      if (products[i].image) {
+        result += `<td><img src="${products[i].image}" alt="Image" style="width: 50px; height: 50px;"/></td>`;
+      } else {
+        result += `<td>No Image</td>`;
+      }
+      result += "<td>" + products[i].description + "</td>";
+      result += `<td><button onclick="editProduct(${i})">Edit</button></td>`;
+      result += `<td><button class="delete-btn" onclick="deleteProduct(${i})">Delete</button></td>`;
+      result += "</tr>";
+    }
+    result += "</table>";
+    document.getElementById("result").innerHTML = result;
+  }
+
+  function deleteProduct(i) {
+    products.splice(i, 1);
+    displayProducts(products);
+  }
+
+  function editProduct(i) {
+    let newProduct = prompt("Edit product: " + products[i].name);
+    if (newProduct) {
+      products[i].name = newProduct;
+      displayProducts(products);
+      alert("Product updated successfully");
+    }
+  }
+
+  document.getElementById("add").addEventListener("click", function () {
+    let new_id = document.getElementById("Them_Id").value;
+    let name = document.getElementById("Them_Name").value;
+    let price = document.getElementById("Them_Price").value;
+    let manufacturer = document.getElementById("Them_Image").value;
+    let description = document.getElementById("Them_Description").value;
+
+    products.push(new Product(new_id,name, price, manufacturer, description));
+
+    //Lưu vào LocalStrong
+    //Lưu 1 giá trị với khóa xác định
+    localStorage.setItem("products", JSON.stringify(products));
+    document.getElementById("Them_Id").value = "";
+    document.getElementById("Them_Name").value = "";
+    document.getElementById("Them_Price").value = "";
+    document.getElementById("Them_Image").value = "";
+    document.getElementById("Them_Description").value = "";
+    console.log(products);
+    displayProducts(products);
+  })
+
+  let products = [];
+  products.push(new Product(1, "Ashahi", 40000, "https://icheck.vn/_next/image?url=https%3A%2F%2Fassets.icheck.vn%2Fimage%2F2024%2Fapp%2F1%2F10%2Fbeeb21022c75432be68b3d39ab43a7ed.png&w=1920&q=80", "Thuong hieu"));
+  products.push(new Product(2, "Nuoc Giat", 30000, "https://png.pngtree.com/background/20210715/original/pngtree-pink-laundry-liquid-simple-bubble-background-picture-image_1283627.jpg", "Very Comfortable"));
+  displayProducts(products);
+</script>
+</html>
